@@ -10,21 +10,23 @@
 ## Passos
 
 1. Definir `INTERNAL_GATEWAY_TOKEN` no `docker-compose.yml` como env compartilhada
-   entre `nginx`, `users_service` e `orders_service` (mesmo valor nos três — em
-   produção seria um secret gerenciado, aqui é uma env de estudo).
+   entre `nginx`, `users_service`, `orders_service` e `catalog_service` (mesmo
+   valor em todos — em produção seria um secret gerenciado, aqui é uma env de
+   estudo).
 2. Mover `default.conf` para `docker/nginx/templates/default.conf.template` e
    trocar `proxy_pass`/valores fixos por variáveis de ambiente onde necessário,
    usando a sintaxe `${INTERNAL_GATEWAY_TOKEN}` — a imagem `nginx:alpine`
    processa arquivos em `/etc/nginx/templates/*.template` com `envsubst`
    automaticamente antes do `nginx` iniciar.
 3. Adicionar `proxy_set_header X-Internal-Token ${INTERNAL_GATEWAY_TOKEN};` nos
-   blocos `/api/users/` e `/api/orders/`.
+   blocos `/api/users/`, `/api/orders/` e `/api/catalog/`.
 4. Criar `InternalTokenGuard implements CanActivate` em cada serviço Node, lendo
    `process.env.INTERNAL_GATEWAY_TOKEN` e comparando com
    `request.headers['x-internal-token']`; registrar como `APP_GUARD` no módulo
    raiz.
-5. Atualizar o `UsersClient` de `orders_service` (criado em F03) para incluir
-   `X-Internal-Token` na chamada a `users_service`.
+5. Atualizar `UsersClient` e `CatalogClient` de `orders_service` (F03) para
+   incluir `X-Internal-Token` nas chamadas a `users_service` e
+   `catalog_service`.
 6. Atualizar `.env.example` e o `Makefile`/README com a nova variável, documentando
    que é um segredo de desenvolvimento, não apto para produção como está.
 

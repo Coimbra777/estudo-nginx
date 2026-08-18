@@ -2,8 +2,8 @@
 
 ## Provê
 
-- Toda rota de `users_service` e `orders_service`, **exceto `GET /health`** (F04),
-  passa a exigir o header `X-Internal-Token`.
+- Toda rota de `users_service`, `orders_service` e `catalog_service`, **exceto
+  `GET /health`** (F04), passa a exigir o header `X-Internal-Token`.
 - Requisição sem o header correto → `401 { statusCode: 401, message: "Unauthorized" }`.
 
 ## Consome

@@ -21,16 +21,17 @@ Cada serviço expõe `GET /health`; o compose usa `healthcheck` +
 
 ## Escopo
 
-- `GET /health` em `users_service` e `orders_service` via `@nestjs/terminus`
-  (liveness simples — não depende do banco, para não confundir "serviço fora do
-  ar" com "banco fora do ar").
-- `GET /health` leve no Laravel (`routes/web.php`, sem tocar banco/redis).
+- `GET /health` em `users_service`, `orders_service` e `catalog_service` (F07)
+  via `@nestjs/terminus` (liveness simples — não depende do banco, para não
+  confundir "serviço fora do ar" com "banco fora do ar").
+- `GET /health` leve no Laravel/storefront (`routes/web.php`, sem tocar
+  banco/redis).
 - Bloco `healthcheck:` no `docker-compose.yml` para `users_service`,
-  `orders_service`, `laravel`, `mysql-laravel`, `redis`, e os bancos novos de F01/F03
-  (`users_db`, `orders_db`).
-- `nginx` passa a usar `depends_on` na forma longa com
+  `orders_service`, `catalog_service`, `laravel`, `mysql-laravel`, `redis`, e os
+  bancos dedicados (`users_db`, `orders_db`, `catalog_db`).
+- `nginx`/`gateway` passa a usar `depends_on` na forma longa com
   `condition: service_healthy` para os serviços que ele roteia.
-- Interceptor/logger estruturado nos dois serviços Node, extraindo
+- Interceptor/logger estruturado nos três serviços Node, extraindo
   `X-Correlation-Id` do header e incluindo como campo `correlationId` em cada linha
   de log.
 

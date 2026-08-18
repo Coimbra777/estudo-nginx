@@ -21,14 +21,24 @@ uma provê/consome. Cada pasta abaixo é uma feature, com três arquivos:
 
 | Pasta | Feature | Wave |
 |---|---|---|
+| [`000-convencao-de-nomenclatura`](000-convencao-de-nomenclatura/) | Convenção de nomenclatura de serviços e domínios | 0 |
 | [`001-users-persistencia-e-correcao`](001-users-persistencia-e-correcao/) | Users Service: persistência e correção | 1 |
 | [`002-gateway-convencoes-transversais`](002-gateway-convencoes-transversais/) | Gateway: convenções transversais | 1 |
 | [`005-redis-ativacao`](005-redis-ativacao/) | Ativação do Redis | 1 |
+| [`007-catalog-ingressos-e-produtos`](007-catalog-ingressos-e-produtos/) | Catalog Service: ingressos e produtos | 1 |
+| [`009-gateway-rate-limiting-e-admissao`](009-gateway-rate-limiting-e-admissao/) | Gateway: rate limiting e admissão | 1 |
 | [`003-orders-dominio-de-pedidos`](003-orders-dominio-de-pedidos/) | Orders Service: domínio de pedidos | 2 |
 | [`004-observabilidade-e-confiabilidade`](004-observabilidade-e-confiabilidade/) | Observabilidade e confiabilidade do compose | 2 |
 | [`006-auth-gateway-servicos`](006-auth-gateway-servicos/) | Autenticação entre gateway e serviços | 3 |
+| [`008-storefront-loja-e-checkout`](008-storefront-loja-e-checkout/) | Storefront (Laravel): loja e checkout | 3 |
+| [`010-teste-de-carga-pico-de-compra`](010-teste-de-carga-pico-de-compra/) | Teste de carga: cenário de pico de compra | 4 |
 
 Features na mesma wave não dependem uma da outra e podem ser implementadas em
 paralelo (por você ou por um agente por feature). Waves seguintes só devem começar
 depois que os `contract.md` que elas consomem estiverem implementados de verdade —
 não apenas escritos.
+
+A wave 0 (F00) é uma exceção ao modelo de provedor/consumidor: nenhuma feature lê
+um contrato dela. Ela vem primeiro só porque F01 e F03 citam caminhos de pasta que
+F00 renomeia — uma questão de arquivo compartilhado, não de dado provido/consumido.
+Ver a nota de compatibilidade em `000-convencao-de-nomenclatura/plan.md`.
